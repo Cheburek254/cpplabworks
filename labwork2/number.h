@@ -4,11 +4,12 @@
 
 
 struct int2025_t {
-    static const int SIZE = 254;
-    static const int BITS = 2025;
-    static const int BYTES = 254;
-
-    uint8_t data[SIZE];
+    static const int SIZE = 253; 
+    static const int BITS = 2024; 
+    static const int BYTES = 253;
+    
+    uint8_t data[SIZE]; 
+    bool is_negative; 
 };
 
 static_assert(sizeof(int2025_t) <= 254,  "Size of int2025_t must be no higher than 254 bytes");
