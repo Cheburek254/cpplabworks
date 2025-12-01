@@ -1,9 +1,7 @@
 #include "hamarc.h"
-#include <iostream>
 #include <vector>
 #include <string>
-#include <algorithm>
-
+#include <cstddef>
 int main(int argc, char* argv[]) {
 	
 
@@ -28,29 +26,29 @@ int main(int argc, char* argv[]) {
 				   }
 	}
 	
-	HamArc::ArchiveState state;
+	hamarc::ArchiveState state;
 	state.archivePath = archive_path;
 
 	std::string command = args[0];
 	if (command == "-c" || command == "--create"){
 		
-		HamArc::CreateArchive(archive_path, files);
+		hamarc::CreateArchive(archive_path, files);
 	}
 	else if (command == "-l" || command == "--list"){
-		if (HamArc::LoadArchive(state)){
-			HamArc::PrintArchiveInfo(state);
+		if (hamarc::LoadArchive(state)){
+			hamarc::PrintArchiveInfo(state);
 		}
 	}
 	else if (command == "-x" || command == "--extract"){
-		if (!HamArc::LoadArchive(state)){
+		if (!hamarc::LoadArchive(state)){
 			return 1;
 		}
 		if (files.empty()){
-			HamArc::ExtractAll(state, std::string(""));
+			hamarc::ExtractAll(state, std::string(""));
 
 		} else{
 			for (const auto& file : files){
-				HamArc::ExtractFile(state, file, std::string("out"));
+				hamarc::ExtractFile(state, file, std::string("out"));
 
 			}
 		}
@@ -60,18 +58,18 @@ int main(int argc, char* argv[]) {
 		
 		
 		for (const auto& file : files){
-			HamArc::AppendFile(state, file);
+			hamarc::AppendFile(state, file);
 		}
 	}
 	else if (command == "-d" || command == "--delete"){
 		
 		for (const auto& file : files){
-			HamArc::KillFile(state, file);
+			hamarc::KillFile(state, file);
 		}
 	}
 	else if (command == "-A" || command == "--concatenate"){
 		
-		HamArc::ConcatenateArchives(files[0], files[1], archive_path);
+		hamarc::ConcatenateArchives(files[0], files[1], archive_path);
 	}
 	return 0;
 }
