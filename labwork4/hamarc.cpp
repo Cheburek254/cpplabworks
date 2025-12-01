@@ -7,7 +7,7 @@
 #include <string>
 #include <map>
 #include <cstring>
-
+#include <cstdio>
 #ifdef _WIN32
 #include <windows.h>
 #else
@@ -15,17 +15,17 @@
 #include <unistd.h>
 #endif
 
-namespace HamArc{
+namespace hamarc{
 
 std::vector<char> EncodeHeader(const FileHeader& header) {
     std::vector<char> raw_data(sizeof(FileHeader));
     std::memcpy(raw_data.data(), &header, sizeof(FileHeader));
-    return HammingCoder::EncodeBuffer(raw_data.data(), raw_data.size());
+    return hammingcoder::EncodeBuffer(raw_data.data(), raw_data.size());
 }
 
 FileHeader DecodeHeader(const char* encoded_data) {
     int correct, uncorrect;
-    std::vector<char> decoded = HammingCoder::DecodeBuffer(encoded_data, sizeof(EncodedFileHeader), correct, uncorrect);
+    std::vector<char> decoded = hammingcoder::DecodeBuffer(encoded_data, sizeof(EncodedFileHeader), correct, uncorrect);
     FileHeader header;
     if (decoded.size() >= sizeof(FileHeader)) {
         std::memcpy(&header, decoded.data(), sizeof(FileHeader));
@@ -36,12 +36,12 @@ FileHeader DecodeHeader(const char* encoded_data) {
 std::vector<char> EncodeFileEntry(const FileEntry& entry) {
     std::vector<char> raw_data(sizeof(FileEntry));
     std::memcpy(raw_data.data(), &entry, sizeof(FileEntry));
-    return HammingCoder::EncodeBuffer(raw_data.data(), raw_data.size());
+    return hammingcoder::EncodeBuffer(raw_data.data(), raw_data.size());
 }
 
 FileEntry DecodeFileEntry(const char* encoded_data) {
     int correct, uncorrect;
-    std::vector<char> decoded = HammingCoder::DecodeBuffer(encoded_data, sizeof(EncodedFileEntry), correct, uncorrect);
+    std::vector<char> decoded = hammingcoder::DecodeBuffer(encoded_data, sizeof(EncodedFileEntry), correct, uncorrect);
     FileEntry entry;
     if (decoded.size() >= sizeof(FileEntry)) {
         std::memcpy(&entry, decoded.data(), sizeof(FileEntry));
@@ -103,7 +103,7 @@ bool ValidateArchive(std::ifstream& file, ArchiveState& state){
     return true;
 }
 
-bool addFileToArchive(const std::string &filePath, std::ofstream &archive, ArchiveState &state, unsigned long long &currentOffset){
+bool AddFileToArchive(const std::string &filePath, std::ofstream &archive, ArchiveState &state, unsigned long long &currentOffset){
     std::ifstream file(filePath, std::ios::binary);
     if (!file) {
         std::cout << "Cannot open file: " << filePath << std::endl;
@@ -121,7 +121,7 @@ bool addFileToArchive(const std::string &filePath, std::ofstream &archive, Archi
     std::vector<char> original_data(file_size);
     file.read(original_data.data(), file_size);
 
-    std::vector<char> encoded_data = HammingCoder::EncodeData(original_data);
+    std::vector<char> encoded_data = hammingcoder::EncodeData(original_data);
 
     FileEntry entry = {};
     std::string filename = GetFilename(filePath);
@@ -168,7 +168,7 @@ bool CreateArchive(const std::string &archive_path, const std::vector<std::strin
     }
 
     for (const auto& file_path : file_paths){
-        if (!addFileToArchive(file_path, archive, state, current_offset)){
+        if (!AddFileToArchive(file_path, archive, state, current_offset)){
             return false;
         }
     }
@@ -233,7 +233,7 @@ bool ExtractFile(const ArchiveState &state, const std::string &filename, const s
     }
 
     int correct, uncorrect;
-    std::vector<char> decoded_data = HammingCoder::DecodeData(encoded_data, correct, uncorrect);
+    std::vector<char> decoded_data = hammingcoder::DecodeData(encoded_data, correct, uncorrect);
 
     if (uncorrect > 0 ){
         std::cout << "ФАЙЛ УВЫ ПОВРЕЖДЕН ПЛАКИ ПЛАКИ :((()))";
@@ -295,10 +295,10 @@ bool AppendFile(ArchiveState &state, const std::string &filePath){
     }
 
     std::vector<char> file_data;
-    const size_t CHUNK_SIZE = 64 * 1024; 
-    std::vector<char> chunk(CHUNK_SIZE);
+    const size_t chunk_size = 64 * 1024; 
+    std::vector<char> chunk(chunk_size);
     
-    while (file.read(chunk.data(), CHUNK_SIZE) || file.gcount() > 0) {
+    while (file.read(chunk.data(), chunk_size) || file.gcount() > 0) {
         size_t bytes_read = file.gcount();
         file_data.insert(file_data.end(), chunk.begin(), chunk.begin() + bytes_read);
     }
@@ -307,7 +307,7 @@ bool AppendFile(ArchiveState &state, const std::string &filePath){
         return false;
     }
 
-    std::vector<char> encoded_data = HammingCoder::EncodeData(file_data);
+    std::vector<char> encoded_data = hammingcoder::EncodeData(file_data);
 
     FileEntry new_entry = {};
     std::string filename = GetFilename(filePath);
@@ -397,4 +397,4 @@ void PrintArchiveInfo(const ArchiveState &state){
     }
 }
 
-}
+}// namespace hamarc
