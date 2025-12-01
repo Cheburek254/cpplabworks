@@ -4,9 +4,10 @@
 #include <vector>
 #include <cstring>
 #include <iostream>
+
 namespace {
 
-std::bitset<7> encode4to7(const std::bitset<4>& data) {
+std::bitset<7> Encode4(const std::bitset<4>& data) {
     std::bitset<7> encoded;
     encoded[2] = data[0];
     encoded[4] = data[1];
@@ -18,7 +19,7 @@ std::bitset<7> encode4to7(const std::bitset<4>& data) {
     return encoded;
 }
 
-std::bitset<4> decode7to4(const std::bitset<7>& encoded, bool& single_error, bool& double_error) {
+std::bitset<4> Decode7(const std::bitset<7>& encoded, bool& single_error, bool& double_error) {
     single_error = false;
     double_error = false;
     std::bitset<7> decoded = encoded;
@@ -59,9 +60,9 @@ bool CalculateControl(const std::bitset<7>& data) {
     return parity;
 }
 
-}
+} // namespace
 
-namespace HammingCoder {
+namespace hammingcoder {
 
 std::pair<char,char> CodeByte(char input){
     std::bitset<8> bits(input);
@@ -73,8 +74,8 @@ std::pair<char,char> CodeByte(char input){
         right_half[i] = bits[i+4];
     }
 
-    std::bitset<7> encode_left  = encode4to7(left_half);
-    std::bitset<7> encode_right = encode4to7(right_half);
+    std::bitset<7> encode_left  = Encode4(left_half);
+    std::bitset<7> encode_right = Encode4(right_half);
 
     bool parity_left  = CalculateControl(encode_left);
     bool parity_right = CalculateControl(encode_right);
@@ -119,8 +120,8 @@ char DecodeByte(char first, char second, bool& single_error, bool& double_error,
 
     bool s1=false, s2=false;
     bool d1 = false, d2 = false;
-    std::bitset<4> dec_left  = decode7to4(encode_left,  s1, d1);
-    std::bitset<4> dec_right = decode7to4(encode_right, s2, d2);
+    std::bitset<4> dec_left  = Decode7(encode_left,  s1, d1);
+    std::bitset<4> dec_right = Decode7(encode_right, s2, d2);
 
     if (s1 || s2)
         single_error = true;
@@ -213,14 +214,14 @@ std::vector<char> DecodeBuffer(const char* encoded_data, size_t encoded_size, in
 
 void EncodeStream(std::istream& input, std::ostream& output, 
                  std::function<void(size_t, size_t)> progress_callback) {
-    const size_t BUFFER_SIZE = 64 * 1024; 
-    std::vector<char> input_buffer(BUFFER_SIZE);
+    const size_t buffer_size = 64 * 1024; 
+    std::vector<char> input_buffer(buffer_size);
     std::vector<char> output_buffer;
-    output_buffer.reserve(BUFFER_SIZE * 2); 
+    output_buffer.reserve(buffer_size * 2); 
     
     size_t total_read = 0;
     
-    while (input.read(input_buffer.data(), BUFFER_SIZE) || input.gcount() > 0) {
+    while (input.read(input_buffer.data(), buffer_size) || input.gcount() > 0) {
         size_t bytes_read = input.gcount();
         total_read += bytes_read;
         
@@ -242,17 +243,16 @@ void EncodeStream(std::istream& input, std::ostream& output,
 
 
 void DecodeStream(std::istream& input, std::ostream& output, 
-                 int& correct_errors, int& uncorrect_errors,
-                 std::function<void(size_t, size_t)> progress_callback) {
-    const size_t BUFFER_SIZE = 128 * 1024; 
-    std::vector<char> input_buffer(BUFFER_SIZE);
+                 int& correct_errors, int& uncorrect_errors) {
+    const size_t buffer_size = 128 * 1024; 
+    std::vector<char> input_buffer(buffer_size);
     std::vector<char> output_buffer;
     
     correct_errors = 0;
     uncorrect_errors = 0;
     size_t total_read = 0;
     
-    while (input.read(input_buffer.data(), BUFFER_SIZE) || input.gcount() > 0) {
+    while (input.read(input_buffer.data(), buffer_size) || input.gcount() > 0) {
         size_t bytes_read = input.gcount();
         total_read += bytes_read;
         
@@ -269,10 +269,8 @@ void DecodeStream(std::istream& input, std::ostream& output,
             output.write(decoded_block.data(), decoded_block.size());
         }
         
-        if (progress_callback) {
-            progress_callback(total_read, total_read);
-        }
+        
     }
 }
 
-}
+}// namespace hamingcoder
