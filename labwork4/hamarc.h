@@ -6,7 +6,7 @@
 #include <map>
 #include <fstream>
 
-namespace HamArc {
+namespace hamarc {
 
 #pragma pack(push, 1)
 struct FileHeader {
