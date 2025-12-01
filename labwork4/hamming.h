@@ -6,7 +6,7 @@
 #include <functional>
 
 
-namespace HammingCoder {
+namespace hammingcoder {
     std::pair<char,char> CodeByte(char input);
     char DecodeByte(char first, char second,bool& single_error, bool& double_error, bool& parity_error);
     bool IsValid(const std::pair<char,char>& encoded);
@@ -16,8 +16,7 @@ namespace HammingCoder {
     std::vector<char> DecodeBuffer(const char* encoded_data, size_t encoded_size, int& correct, int& uncorrect);
     void EncodeStream(std::istream& input, std::ostream& output, std::function<void(size_t, size_t)> progress_callback = nullptr);
     void DecodeStream(std::istream& input, std::ostream& output, 
-                     int& correct_errors, int& uncorrect_errors,
-                     std::function<void(size_t, size_t)> progress_callback = nullptr);
+                     int& correct_errors, int& uncorrect_errors);
 }
 
 
