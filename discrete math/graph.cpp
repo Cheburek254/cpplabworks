@@ -460,77 +460,7 @@ public:
     }
 
     //кодирование дерефа прюфером
-    string getPrueferCode(const vector<FullEdge>& mst) {
-        int m = n;
-        vector<vector<int>> mstAdj(m);
-        for (const FullEdge& e : mst) {
-            mstAdj[e.u].push_back(e.v);
-            mstAdj[e.v].push_back(e.u);
-        }
-        vector<int> degree(m, 0);
-        for (int i = 0; i < m; i++) {
-            degree[i] = mstAdj[i].size();
-        }
-        vector<int> pruefer;
-        set<int> leaves;
-        for (int i = 0; i < m; i++) {
-            if (degree[i] == 1) {
-                leaves.insert(i);
-            }
-        }
-        for (int i = 0; i < m - 2; i++) {
-            int leaf = *leaves.begin();
-            leaves.erase(leaves.begin());
-            int neighbor = -1;
-            for (int v : mstAdj[leaf]) {
-                if (degree[v] > 0) {
-                    neighbor = v;
-                    break;
-                }
-            }
-            pruefer.push_back(neighbor);
-            degree[leaf]--;
-            degree[neighbor]--;
-            if (degree[neighbor] == 1) {
-                leaves.insert(neighbor);
-            }
-        }
-
-        string result;
-        for (int code : pruefer) {
-            result += to_string(code + 1);
-        }
-        return result;
-    }
-
-    //кодирование дерева бинарным кодом
-    string getBinaryCode(const vector<FullEdge>& mst) {
-        vector<vector<int>> mstgraph(n);
-        for (const FullEdge& e : mst) {
-            mstgraph[e.u].push_back(e.v);
-            mstgraph[e.v].push_back(e.u);
-        }
-        
-        for (int i = 0; i < n; i++) {
-            sort(mstgraph[i].begin(), mstgraph[i].end());
-        }
-        
-        string binaryCode;
-        dfsbinary(0, -1, mstgraph, binaryCode);
-        
-        return binaryCode;
-    }
-    void ShowEncodedMST() {
-        vector<FullEdge> mst = findMST();
-        
-        string pruefer = getPrueferCode(mst);
-        string binary = getBinaryCode(mst);
-        
-       
-        cout << "   Preufer code: " << pruefer << "\n";
-        cout << "   Binary code: " << binary << "\n";
-        
-    }
+    
 };
 
 int main() {
@@ -615,7 +545,7 @@ int main() {
     cout << endl;
     
     cout << "=== MST ===" << endl;
-    g.ShowEncodedMST();
+    g.findMST();
 
     return 0;
     return 0;
