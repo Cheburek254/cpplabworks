@@ -388,7 +388,7 @@ public:
         cout << endl;
         cout << "Number of vertices in subgraph: " << verticesInSubgraph.size() << endl;
         cout << "Number of edges in subgraph: " << eulerianEdges.size() << endl;
-        cout << "\n=== EDGES IN EULERS SUBGRAPH ===" << endl;
+        
         cout << "List of edges:" << endl;
         
         // Сортируем ребра для удобства чтения
@@ -403,9 +403,9 @@ public:
             cout << "  " << e.u << " (" << getCountryName(e.u) << ") - " 
                 << e.v << " (" << getCountryName(e.v) << ") [weight: " << e.weight << "]" << endl;
         }
-        cout << "========================================" << endl;
-            return eulerianEdges;
-        }
+        
+        return eulerianEdges;
+    }
 
     //Система непересекающихся множест для быстрого построения MST
     class DSU{
@@ -503,7 +503,7 @@ public:
         return result;
     }
 
-    //кодирование дерева бинарным кодом
+    //кодирование дерева бинарным кодом через дфс
     string getBinaryCode(const vector<FullEdge>& mst) {
         vector<vector<int>> mstgraph(n);
         for (const FullEdge& e : mst) {
@@ -602,19 +602,19 @@ int main() {
 
     
 
-     cout << "=== Analisys ===" << endl;
+     cout << "Analisy of graph" << endl;
     g.FindRDC();
     cout << endl;
     
-    cout << "=== Chromatic number ===" << endl;
+    cout << "Chromatic number" << endl;
     g.ChromaticNumber();
     cout << endl;
     
-    cout << "=== Eulers subgraph ===" << endl;
+    cout << "Eulers subgraph" << endl;
     g.findMaxEulerianSubgraph();
     cout << endl;
     
-    cout << "=== MST ===" << endl;
+    cout << "MST" << endl;
     g.ShowEncodedMST();
 
     
