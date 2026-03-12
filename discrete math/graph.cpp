@@ -210,6 +210,7 @@ public:
         return chromaticNumber;
     }
         
+    
     //Система непересекающихся множест для быстрого построения MST
     class DSU{
     private:
@@ -385,6 +386,7 @@ int main() {
     g.AddEdge(6, 16, 300);
     g.AddEdge(6, 7, 500);
     g.AddEdge(7, 15, 55);
+    g.AddEdge(7, 16, 250);
     g.AddEdge(7, 11, 215);
     g.AddEdge(7, 9, 250);
     g.AddEdge(7, 8, 750);
@@ -412,6 +414,8 @@ int main() {
     cout << "Chromatic number" << endl;
     g.ChromaticNumber();
     cout << endl;
+    
+   
     
     cout << "MST" << endl;
     g.ShowEncodedMST();
