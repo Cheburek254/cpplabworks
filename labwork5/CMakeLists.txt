@@ -1,9 +1,14 @@
-add_executable(itmoloops
-    main.cpp
-    engine.cpp
-    parser.cpp
-    wav.cpp
-    instruments.cpp
-    effects.cpp
+cmake_minimum_required(VERSION 3.24)
+
+project(
+    itmoloops
+    VERSION 1.0
+    DESCRIPTION "C++ Year 2025 labwork5"
+    LANGUAGES CXX
 )
-target_link_libraries(itmoloops PRIVATE itmoloops_lib)
+
+set(CMAKE_CXX_STANDARD 20)
+
+
+add_subdirectory(lib)
+add_subdirectory(bin)
