@@ -1,11 +1,6 @@
 # livecoding
 
-Снимок ветки `livecoding` · [исходный коммит `1302597`](https://github.com/is-itmo-c-25/livecoding-Cheburek254/commit/1302597180d343b9d9643a0d87b87fa4605f967d)
-
 Цель CMake — `app`. В папке лежат [обычный словарь](dictionary.txt) и [словарь терминов C++](cpp_dictionary.txt). При сборке с GCC 15 в режиме C++23 возникает ошибка в выражении `std::cin >> user_input`. Здесь `user_input` имеет тип `char*`.
-
-Решение принимается в виде PR из ветки livecoding через отправку в [форму](https://forms.gle/5S6SSotwhWZuWAn66).
-Разрешается пользоваться только cppreference, любые другие иточники, включая ваш прошлый код, запрещены!
 
 ## Задача
 

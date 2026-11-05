@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 project(
     labwork2
     VERSION 1.0
-    DESCRIPTION "C++ Year 2025 Labwork2"
+    DESCRIPTION "Fixed-width signed integer"
     LANGUAGES CXX
 )
 

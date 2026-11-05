@@ -1,7 +1,5 @@
 # Лабораторная работа 2
 
-Снимок ветки `deadline_1` · [исходный коммит `ed6bcd2`](https://github.com/is-itmo-c-25/labwork2-Cheburek254/commit/ed6bcd230c10c9470661b95e1dd5fb56355c4828)
-
 Реализация находится в [lib/number.cpp](lib/number.cpp), пример использования — в [bin/main.cpp](bin/main.cpp). Цели CMake — `labwork2` и `number_tests`.
 
 ## Задача
@@ -76,16 +74,3 @@ cmake --build build --target labwork2 && build/bin/labwork2
     4. Арифметика указателей
     5. Структуры
     6. Объединения
-
-
-## Deadline
-
-| deadline | submission period | coeff | branch |
-|----------|:-----------------:|-------|------------|
-| 0 | до 20.10.25 23:59 | 1.0 | deadline_0 |
-| 1 | до 27.10.25 23:59 | 0.8 | deadline_1 |
-| 2 | до 03.11.25 23:59 | 0.65 | deadline_2 |
-| 3 | после 04.11.25 0:00 | 0.5 | deadline_3 |
-
-Максимальное количество баллов - 12
-r

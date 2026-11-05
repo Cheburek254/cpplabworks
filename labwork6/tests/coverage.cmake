@@ -18,7 +18,6 @@
 # 2. https://danielsieger.com/blog/2024/08/03/code-coverage-with-cmake.html
 # 3. https://smhk.net/note/2024/11/cmake-and-coverage-with-gcov/
 #
-################################# ITMO C++ 2025 ################################
 
 cmake_minimum_required(VERSION 3.12)
 

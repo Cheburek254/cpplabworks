@@ -1,11 +1,6 @@
 # livecoding2
 
-Снимок ветки `livecoding` · [исходный коммит `611664c`](https://github.com/is-itmo-c-25/livecoding2-Cheburek254/commit/611664cbf53bcbd0e426e92d61e80bf2858be374)
-
 Реализация функции находится в [main.cpp](main.cpp). Цель CMake — `livecoding2`.
-
-Решение принимается в виде PR из ветки livecoding через отправку в [форму](https://forms.gle/KrxU5fCzCQrGGf4JA).
-Разрешается пользоваться только cppreference, любые другие иточники, включая ваш прошлый код, запрещены!
 
 ## Задача
 
